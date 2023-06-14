@@ -13,16 +13,23 @@ const ProductsContextProvider = props => {
 
   const getAllCategories = () => {
     axios.get(`https://api.escuelajs.co/api/v1/categories`).then(res => {
-      // console.log(res.data)
       setCategories(res.data)
     })
   }
   const getAllProducts = () => {
     axios.get(`https://api.escuelajs.co/api/v1/products`).then(res => {
-      // console.log(res.data)
       setProducts(res.data)
     })
   }
+const removeFromCart = (id, price) => {
+  const newPurchases = purchases.filter(purchase => purchase.id !== id)
+  setPurchases(newPurchases)
+  calcTotalCost(price, '-')
+}
+const clearCart = () => {
+  setPurchases([])
+  setTotalCost(0)
+}
   const getFilteredProducts = (checkedCategories = []) => {
     if (checkedCategories) {
       let filteredProducts = []
@@ -65,7 +72,9 @@ const ProductsContextProvider = props => {
         purchases,
         setPurchases,
         calcTotalCost,
-        totalCost
+        totalCost,
+        removeFromCart,
+        clearCart
       }}
     >
       {props.children}

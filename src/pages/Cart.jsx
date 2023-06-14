@@ -4,14 +4,23 @@ import { AiOutlineClose } from 'react-icons/ai'
 import { GrAdd, GrSubtract } from 'react-icons/gr'
 import { ProductsContext } from '../contexts/productsContext'
 const Cart = () => {
-  const { purchases, calcTotalCost, totalCost } = useContext(ProductsContext)
+  const {
+    purchases,
+    calcTotalCost,
+    totalCost,
+    removeFromCart,
+    clearCart
+  } = useContext(ProductsContext)
 
   return (
     purchases && (
       <div className='w-[80%] mx-auto mt-10'>
         <div className='flex items-center gap-7 mb-10'>
           <h2 className='text-xl font-semibold'>Total Cost:{totalCost}$</h2>
-          <p className='text-lg text-white bg-purple p-5 py-2 rounded-md'>
+          <p
+            className='text-lg text-white bg-purple p-5 py-2 rounded-md cursor-pointer'
+            onClick={clearCart}
+          >
             Clear ({purchases.length})
           </p>
         </div>
@@ -51,6 +60,9 @@ const Cart = () => {
               size={25}
               fontWeight={800}
               className='cursor-pointer'
+              onClick={() => {
+                removeFromCart(pro.id, pro.price)
+              }}
             />
           </div>
         ))}
